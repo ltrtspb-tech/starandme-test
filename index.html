@@ -54,6 +54,21 @@ p{margin:0 0 12px}
 .rank .d{color:var(--muted);font-size:15px}
 .tag{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#7A5A14;background:var(--acc-t);border-radius:999px;padding:3px 10px;margin-bottom:6px}
 footer{border-top:1px solid var(--line);margin-top:34px;padding-top:14px;font-size:14px;color:var(--muted)}
+.fld{margin:0 0 14px}
+.fld label{display:block;font-size:15px;font-weight:700;margin:0 0 4px}
+.fld .hint{font-size:13.5px;color:var(--muted);margin:3px 0 0}
+.fld input,.fld select{width:100%;font:inherit;font-size:17px;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+.fld input:focus,.fld select:focus,.ev select:focus,.ev input:focus{outline:2px solid var(--acc);outline-offset:-1px;border-color:var(--acc)}
+.chk{display:flex;gap:9px;align-items:flex-start;margin:-2px 0 16px;font-size:15.5px}
+.chk input{width:19px;height:19px;flex:none;margin-top:2px;accent-color:var(--acc)}
+.ev{display:grid;grid-template-columns:1fr 148px;gap:8px;margin:0 0 8px;align-items:start}
+.ev .n{grid-column:1/-1;margin:12px 0 0;font-size:13.5px;color:var(--muted);font-weight:700}
+.ev select,.ev input{width:100%;font:inherit;font-size:16px;padding:10px 11px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+.err{color:#B01F18;font-size:15px;margin:8px 0 0;font-weight:700}
+.out{white-space:pre-wrap;font-family:ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace;font-size:14px;line-height:1.5;background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:14px;margin:6px 0 12px}
+.steps{font-size:13.5px;color:var(--muted);margin:0 0 10px;letter-spacing:.02em}
+.steps b{color:var(--acc)}
+@media(max-width:420px){ .ev{grid-template-columns:1fr} }
 [hidden]{display:none!important}
 @media(max-width:420px){
   body{font-size:16px} h1{font-size:28px}
@@ -85,6 +100,15 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:14px;font-si
   <p class="small muted" style="margin-top:12px" data-t="resume" hidden id="resumeNote"></p>
 </section>
 
+<section id="form" hidden>
+  <div class="steps" id="steps1"></div>
+  <h1 data-t="fh"></h1>
+  <p class="lead" data-t="flead"></p>
+  <div id="formbox"></div>
+  <p class="err" id="formerr" hidden></p>
+  <div class="nav"><button class="btn" id="toquiz" onclick="formNext()" data-t="fnext"></button></div>
+</section>
+
 <section id="quiz" hidden>
   <div class="bar"><i id="barfill"></i></div>
   <div class="pmeta"><span id="pcount"></span><span id="ptime"></span></div>
@@ -113,10 +137,12 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding-top:14px;font-si
   </div>
 
   <h2 data-t="ch"></h2>
-  <p data-t="ctext"></p>
   <div class="code" id="codeout"></div>
+  <h2 data-t="sendH"></h2>
+  <p data-t="sendText"></p>
+  <div class="out" id="sendout"></div>
   <div class="nav">
-    <button class="btn" onclick="copyCode()" id="copybtn"></button>
+    <button class="btn" onclick="copyAll()" id="copybtn"></button>
     <button class="btn ghost" onclick="restart()" data-t="again"></button>
   </div>
   <p class="small muted" style="margin-top:14px" data-t="cnote"></p>
@@ -145,13 +171,35 @@ var ARCH = [
 
 var T = {
  ru:{
-  h1:"Какой архетип ведёт вас",
-  lead:"36 коротких утверждений, около четырёх минут. Отвечайте первым, что приходит — так точнее.",
+  h1:"Заявка на разбор Star & Me",
+  lead:"Два шага: данные о рождении и 36 коротких утверждений о себе. Всего около шести минут. Отвечайте первым, что приходит — так точнее.",
+  st1:"1. Данные", st2:"2. Утверждения", st3:"3. Код",
   f1:"Ответы остаются в вашем браузере и никуда не отправляются.",
   f2:"В конце вы получите короткий код результата — только он нужен для разбора.",
   f3:"Можно закрыть страницу и вернуться: прогресс сохраняется.",
   f4:"Это инструмент самопознания, а не медицинский или клинический тест.",
   start:"Начать",
+  fh:"Данные о рождении",
+  flead:"По ним считается карта и числа. Чем точнее время, тем точнее разбор.",
+  lName:"Полное имя", hName:"Можно не заполнять. Нужно только для раздела о числах имени — без него разбор будет полным, просто без этой части.",
+  lDate:"Дата рождения",
+  lTime:"Время рождения", hTime:"Как в свидетельстве о рождении или как помнят родители.",
+  lNoTime:"Я не знаю своего времени рождения",
+  lCity:"Город рождения", lCountry:"Страна рождения",
+  evH:"Важные даты вашей жизни",
+  evLead:"Время рождения можно восстановить по событиям. Заполните хотя бы пять строк, лучше все семь. Подойдут только те даты, которые вы помните хотя бы с точностью до месяца — если точный день забылся, поставьте приблизительный.",
+  evPick:"— выберите событие —",
+  ev1:"Пошёл(ла) в первый класс", ev2:"Свадьба", ev3:"Рождение ребёнка", ev4:"Переезд в другой город",
+  ev5:"Смена работы или начало своего дела", ev6:"Операция или серьёзная травма", ev7:"Уход близкого человека", ev8:"Другое важное событие",
+  evOwn:"Опишите событие",
+  fnext:"Дальше — утверждения",
+  errReq:"Заполните дату рождения, город и страну.",
+  errTime:"Укажите время рождения или отметьте, что вы его не знаете.",
+  errEv:"Для восстановления времени нужно хотя бы пять событий с датами.",
+  sendH:"Что отправить нам",
+  sendText:"Скопируйте этот текст и пришлите нам одним сообщением. После этого — оплата и подтверждение платежа, и мы начинаем расчёт: все данные уже будут на руках.",
+  copyAll:"Скопировать всё",
+  noTimeLine:"время рождения неизвестно, даты для восстановления:",
   resume:"У вас есть незаконченная попытка — нажмите «Начать», чтобы продолжить с того же места.",
   back:"Назад",
   next:"Далее",
@@ -175,13 +223,35 @@ var T = {
   foot:"Star & Me · Три системы. Одно совпадение. Это вы."
  },
  en:{
-  h1:"Which archetype leads you",
-  lead:"36 short statements, about four minutes. Answer with your first instinct — it is more accurate.",
+  h1:"Your Star & Me request",
+  lead:"Two steps: your birth details and 36 short statements about yourself. About six minutes in all. Answer with your first instinct — it is more accurate.",
+  st1:"1. Details", st2:"2. Statements", st3:"3. Code",
   f1:"Your answers stay in your browser and are never sent anywhere.",
   f2:"At the end you get a short result code — that is all your reading needs.",
   f3:"You can close the page and come back: your progress is saved.",
   f4:"This is a tool for self-knowledge, not a medical or clinical test.",
   start:"Begin",
+  fh:"Birth details",
+  flead:"Your chart and numbers are calculated from these. The more exact the time, the more exact the reading.",
+  lName:"Full name", hName:"Optional. Needed only for the section on the numbers of your name — without it the reading is still complete, just without that part.",
+  lDate:"Date of birth",
+  lTime:"Time of birth", hTime:"As on your birth certificate, or as your parents remember it.",
+  lNoTime:"I do not know my time of birth",
+  lCity:"City of birth", lCountry:"Country of birth",
+  evH:"Important dates in your life",
+  evLead:"Your birth time can be recovered from life events. Fill in at least five rows, ideally all seven. Only use dates you remember to within a month — if the exact day escapes you, give your best guess.",
+  evPick:"— choose an event —",
+  ev1:"Started first grade", ev2:"Wedding", ev3:"Birth of a child", ev4:"Moved to another city",
+  ev5:"Changed job or started your own business", ev6:"Surgery or serious injury", ev7:"Loss of someone close", ev8:"Another important event",
+  evOwn:"Describe the event",
+  fnext:"Next — the statements",
+  errReq:"Please fill in your date of birth, city and country.",
+  errTime:"Enter your time of birth, or tick that you do not know it.",
+  errEv:"At least five dated events are needed to recover your birth time.",
+  sendH:"What to send us",
+  sendText:"Copy this text and send it to us in one message. Then payment and proof of payment, and we start the calculation — everything will already be in hand.",
+  copyAll:"Copy everything",
+  noTimeLine:"time of birth unknown, dates for recovery:",
   resume:"You have an unfinished attempt — press Begin to pick up where you left off.",
   back:"Back",
   next:"Next",
@@ -207,10 +277,11 @@ var T = {
 };
 
 var PER = 4, lang = "ru", page = 0, ans = new Array(36).fill(0);
+var P = {name:"",date:"",time:"",notime:false,city:"",country:"",ev:[{k:"",own:"",d:""},{k:"",own:"",d:""},{k:"",own:"",d:""},{k:"",own:"",d:""},{k:"",own:"",d:""},{k:"",own:"",d:""},{k:"",own:"",d:""}]};
 var ITEMS = window.__ITEMS__;
 var KEY = "sm36v1";
 
-function save(){ try{ localStorage.setItem(KEY, JSON.stringify({a:ans,p:page,l:lang})); }catch(e){} }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify({a:ans,p:page,l:lang,f:P})); }catch(e){} }
 function load(){ try{ var s=localStorage.getItem(KEY); return s?JSON.parse(s):null; }catch(e){ return null; } }
 
 function t(k){ return T[lang][k]; }
@@ -225,15 +296,103 @@ function setLang(l){
     var k = nodes[i].getAttribute("data-t");
     if (T[l][k] !== undefined) nodes[i].textContent = T[l][k];
   }
+  if (!document.getElementById("form").hidden) renderForm();
   if (!document.getElementById("quiz").hidden) render();
   if (!document.getElementById("result").hidden) showResult();
-  document.getElementById("copybtn").textContent = t("copy");
+  document.getElementById("copybtn").textContent = t("copyAll");
+  var s1 = document.getElementById("steps1");
+  if (s1) s1.innerHTML = "<b>"+t("st1")+"</b> · "+t("st2")+" · "+t("st3");
   save();
 }
 
 function start(){
   document.getElementById("intro").hidden = true;
   document.getElementById("result").hidden = true;
+  document.getElementById("quiz").hidden = true;
+  document.getElementById("form").hidden = false;
+  renderForm();
+  window.scrollTo(0,0);
+}
+
+function esc(x){ return String(x||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+
+function fld(id, label, type, val, hint){
+  return '<div class="fld" id="w_'+id+'"><label for="'+id+'">'+label+'</label>'+
+    '<input id="'+id+'" type="'+type+'" value="'+esc(val)+'">'+
+    (hint ? '<p class="hint">'+hint+'</p>' : '')+'</div>';
+}
+
+function renderForm(){
+  var h = "";
+  h += fld("f_name", t("lName"), "text", P.name, t("hName"));
+  h += fld("f_date", t("lDate"), "date", P.date, "");
+  h += fld("f_time", t("lTime"), "time", P.time, t("hTime"));
+  h += '<div class="chk"><input id="f_notime" type="checkbox"'+(P.notime?" checked":"")+'><label for="f_notime" style="font-weight:400">'+t("lNoTime")+'</label></div>';
+  h += '<div id="evbox"'+(P.notime?"":" hidden")+'>';
+  h += '<h3 style="margin-top:4px">'+t("evH")+'</h3><p class="small" style="color:var(--muted)">'+t("evLead")+'</p>';
+  var opts = ["ev1","ev2","ev3","ev4","ev5","ev6","ev7","ev8"];
+  for (var i=0;i<7;i++){
+    var e = P.ev[i] || {k:"",own:"",d:""};
+    h += '<div class="ev">';
+    h += '<p class="n">'+(i+1)+'</p>';
+    h += '<select id="e_k'+i+'"><option value="">'+t("evPick")+'</option>';
+    for (var j=0;j<opts.length;j++)
+      h += '<option value="'+opts[j]+'"'+(e.k===opts[j]?" selected":"")+'>'+t(opts[j])+'</option>';
+    h += '</select>';
+    h += '<input id="e_d'+i+'" type="date" value="'+esc(e.d)+'">';
+    h += '<input id="e_o'+i+'" type="text" placeholder="'+t("evOwn")+'" value="'+esc(e.own)+'"'+(e.k==="ev8"?"":" hidden")+' style="grid-column:1/-1">';
+    h += '</div>';
+  }
+  h += '</div>';
+  h += fld("f_city", t("lCity"), "text", P.city, "");
+  h += fld("f_country", t("lCountry"), "text", P.country, "");
+  document.getElementById("formbox").innerHTML = h;
+  document.getElementById("toquiz").textContent = t("fnext");
+
+  document.getElementById("f_notime").onchange = function(){
+    P.notime = this.checked;
+    document.getElementById("evbox").hidden = !this.checked;
+    document.getElementById("w_f_time").hidden = this.checked;
+    readForm(); save();
+  };
+  document.getElementById("w_f_time").hidden = P.notime;
+  for (var k=0;k<7;k++) (function(n){
+    document.getElementById("e_k"+n).onchange = function(){
+      document.getElementById("e_o"+n).hidden = this.value !== "ev8";
+      readForm(); save();
+    };
+  })(k);
+  var ins = document.querySelectorAll("#formbox input, #formbox select");
+  for (var m=0;m<ins.length;m++) ins[m].addEventListener("change", function(){ readForm(); save(); });
+}
+
+function val(id){ var e = document.getElementById(id); return e ? e.value : ""; }
+
+function readForm(){
+  P.name = val("f_name"); P.date = val("f_date"); P.time = val("f_time");
+  P.city = val("f_city"); P.country = val("f_country");
+  var nt = document.getElementById("f_notime");
+  if (nt) P.notime = nt.checked;
+  for (var i=0;i<7;i++) P.ev[i] = { k: val("e_k"+i), own: val("e_o"+i), d: val("e_d"+i) };
+}
+
+function evCount(){
+  var n = 0;
+  for (var i=0;i<7;i++){ var e = P.ev[i]; if (e && e.k && e.d) n++; }
+  return n;
+}
+
+function formNext(){
+  readForm();
+  var err = document.getElementById("formerr");
+  var msg = "";
+  if (!P.date || !P.city.trim() || !P.country.trim()) msg = t("errReq");
+  else if (!P.notime && !P.time) msg = t("errTime");
+  else if (P.notime && evCount() < 5) msg = t("errEv");
+  if (msg){ err.textContent = msg; err.hidden = false; err.scrollIntoView({block:"center"}); return; }
+  err.hidden = true;
+  save();
+  document.getElementById("form").hidden = true;
   document.getElementById("quiz").hidden = false;
   render();
   window.scrollTo(0,0);
@@ -276,7 +435,7 @@ function render(){
   var nb = document.getElementById("next");
   nb.textContent = last ? t("finish") : t("next");
   nb.disabled = !pageFull();
-  document.getElementById("back").hidden = page===0;
+  document.getElementById("back").hidden = false;
 }
 
 function pageFull(){
@@ -306,7 +465,12 @@ function nextPage(){
   if ((page+1)*PER >= 36){ finish(); return; }
   page++; save(); render(); window.scrollTo(0,0);
 }
-function prevPage(){ if (page>0){ page--; save(); render(); window.scrollTo(0,0); } }
+function prevPage(){
+  if (page>0){ page--; save(); render(); window.scrollTo(0,0); return; }
+  document.getElementById("quiz").hidden = true;
+  document.getElementById("form").hidden = false;
+  renderForm(); window.scrollTo(0,0);
+}
 
 function sums(){
   var s = new Array(12).fill(0);
@@ -381,12 +545,42 @@ function showResult(){
   tagOf("r3","tagGrowth");
 
   document.getElementById("codeout").textContent = code();
-  document.getElementById("copybtn").textContent = t("copy");
+  document.getElementById("sendout").textContent = sendText();
+  document.getElementById("copybtn").textContent = t("copyAll");
 }
 
-function copyCode(){
-  var c = code(), b = document.getElementById("copybtn");
-  function ok(){ b.textContent = t("copied"); setTimeout(function(){ b.textContent = t("copy"); }, 1800); }
+function fmtDate(iso){
+  if (!iso) return "";
+  var p = iso.split("-");
+  return p.length===3 ? p[2]+"."+p[1]+"."+p[0] : iso;
+}
+
+function sendText(){
+  var L = [];
+  L.push(lang==="ru" ? "Заявка на разбор Star & Me" : "Star & Me reading request");
+  if (P.name.trim()) L.push((lang==="ru"?"Имя: ":"Name: ") + P.name.trim());
+  L.push((lang==="ru"?"Дата рождения: ":"Date of birth: ") + fmtDate(P.date));
+  if (P.notime){
+    L.push((lang==="ru"?"Время рождения: ":"Time of birth: ") + t("noTimeLine"));
+    for (var i=0;i<7;i++){
+      var e = P.ev[i];
+      if (e && e.k && e.d){
+        var nm = e.k==="ev8" ? (e.own.trim() || t("ev8")) : t(e.k);
+        L.push("  " + fmtDate(e.d) + " — " + nm);
+      }
+    }
+  } else {
+    L.push((lang==="ru"?"Время рождения: ":"Time of birth: ") + P.time);
+  }
+  L.push((lang==="ru"?"Город рождения: ":"City of birth: ") + P.city.trim());
+  L.push((lang==="ru"?"Страна рождения: ":"Country of birth: ") + P.country.trim());
+  L.push((lang==="ru"?"Код теста: ":"Test code: ") + code());
+  return L.join("\n");
+}
+
+function copyAll(){
+  var c = sendText(), b = document.getElementById("copybtn");
+  function ok(){ b.textContent = t("copied"); setTimeout(function(){ b.textContent = t("copyAll"); }, 1800); }
   if (navigator.clipboard && navigator.clipboard.writeText){
     navigator.clipboard.writeText(c).then(ok, fallback);
   } else fallback();
@@ -404,12 +598,14 @@ function restart(){
   document.getElementById("result").hidden = true;
   document.getElementById("intro").hidden = false;
   document.getElementById("quiz").hidden = true;
+  document.getElementById("form").hidden = true;
   window.scrollTo(0,0);
 }
 
 (function init(){
   var st = load();
   if (st && st.l && T[st.l]) lang = st.l;
+  if (st && st.f) { for (var kk in st.f) if (st.f[kk] !== undefined) P[kk] = st.f[kk]; }
   if (st && st.a && st.a.length===36){
     ans = st.a; page = st.p || 0;
     if (ans.filter(function(x){return x>0;}).length > 0)
