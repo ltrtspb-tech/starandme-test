@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Star &amp; Me — Archetype Test</title>
+<meta name="description" content="36 statements, 4 minutes. Your answers stay in your browser.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='25' x='4' font-size='24'%3E%E2%98%85%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;600&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1E1E24; --muted:#5A5A63; --line:#E4DFD4; --soft:#F8F6F1;
+  --acc:#C98E2B; --acc-t:#F8EEDB; --bg:#FFFDF9; --card:#FFFFFF;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'PT Sans',system-ui,sans-serif;font-size:17px;line-height:1.55;-webkit-text-size-adjust:100%}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px 48px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 0 10px}
+.brand{font-family:'EB Garamond',serif;font-weight:600;font-size:19px;letter-spacing:.01em;display:flex;align-items:center;gap:8px}
+.brand svg{width:22px;height:22px;flex:none}
+.lang{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:#fff}
+.lang button{appearance:none;border:0;background:transparent;font:inherit;font-size:14px;font-weight:700;color:var(--muted);padding:6px 13px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--acc);color:#fff}
+h1{font-family:'EB Garamond',serif;font-weight:600;font-size:34px;line-height:1.12;margin:18px 0 10px}
+h2{font-family:'EB Garamond',serif;font-weight:600;font-size:24px;line-height:1.15;margin:26px 0 8px}
+p{margin:0 0 12px}
+.lead{font-size:18px;color:#2C2C33}
+.muted{color:var(--muted)}
+.small{font-size:15px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 18px 14px;margin:0 0 14px}
+.facts{list-style:none;margin:0 0 20px;padding:0}
+.facts li{position:relative;padding-left:26px;margin:0 0 8px}
+.facts li::before{content:"";position:absolute;left:6px;top:9px;width:7px;height:7px;border-radius:50%;background:var(--acc)}
+.btn{appearance:none;border:0;border-radius:999px;background:var(--acc);color:#fff;font:inherit;font-weight:700;font-size:17px;padding:14px 28px;cursor:pointer;width:100%;max-width:320px}
+.btn:disabled{background:#DCD6C9;cursor:default}
+.btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line);font-weight:400;font-size:15px;padding:10px 20px;max-width:none;width:auto}
+.bar{height:5px;border-radius:999px;background:#EDE8DD;overflow:hidden;margin:4px 0 2px}
+.bar i{display:block;height:100%;background:var(--acc);width:0;transition:width .25s ease}
+.pmeta{display:flex;justify-content:space-between;font-size:14px;color:var(--muted);margin-bottom:16px}
+.q{margin:0 0 10px;font-size:18px;line-height:1.4}
+.scale{display:flex;gap:6px}
+.scale button{flex:1;appearance:none;background:#fff;border:1px solid var(--line);border-radius:10px;font:inherit;font-weight:700;font-size:17px;color:var(--ink);padding:13px 0;cursor:pointer;transition:.12s}
+.scale button:hover{border-color:var(--acc)}
+.scale button[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:#fff}
+.slabels{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-top:6px}
+.nav{display:flex;align-items:center;gap:12px;margin-top:18px;flex-wrap:wrap}
+.code{font-family:ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace;font-size:21px;font-weight:700;letter-spacing:.06em;background:var(--acc-t);border:1px dashed var(--acc);border-radius:12px;padding:16px;text-align:center;word-break:break-all}
+.rank{display:flex;gap:12px;align-items:baseline;border-bottom:1px solid var(--line);padding:10px 0}
+.rank:last-child{border-bottom:0}
+.rank .t{font-family:'EB Garamond',serif;font-size:21px;font-weight:600;flex:none}
+.rank .d{color:var(--muted);font-size:15px}
+.tag{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#7A5A14;background:var(--acc-t);border-radius:999px;padding:3px 10px;margin-bottom:6px}
+footer{border-top:1px solid var(--line);margin-top:34px;padding-top:14px;font-size:14px;color:var(--muted)}
+[hidden]{display:none!important}
+@media(max-width:420px){
+  body{font-size:16px} h1{font-size:28px}
+  .scale button{font-size:16px;padding:12px 0}
+  .btn{max-width:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="brand">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.6l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 16.8 5.9 20.2l1.4-6.8L2.2 8.7l6.9-.8z" fill="#1E1E24"/><circle cx="12" cy="9.6" r="1.9" fill="#C98E2B"/></svg>
+    <span>Star &amp; Me</span>
+  </div>
+  <div class="lang" role="group">
+    <button id="lru" aria-pressed="true" onclick="setLang('ru')">RU</button>
+    <button id="len" aria-pressed="false" onclick="setLang('en')">EN</button>
+  </div>
+</header>
+
+<section id="intro">
+  <h1 data-t="h1"></h1>
+  <p class="lead" data-t="lead"></p>
+  <ul class="facts">
+    <li data-t="f1"></li><li data-t="f2"></li><li data-t="f3"></li><li data-t="f4"></li>
+  </ul>
+  <button class="btn" onclick="start()" data-t="start"></button>
+  <p class="small muted" style="margin-top:12px" data-t="resume" hidden id="resumeNote"></p>
+</section>
+
+<section id="quiz" hidden>
+  <div class="bar"><i id="barfill"></i></div>
+  <div class="pmeta"><span id="pcount"></span><span id="ptime"></span></div>
+  <div id="qcards"></div>
+  <div class="nav">
+    <button class="btn" id="next" onclick="nextPage()" disabled></button>
+    <button class="btn ghost" id="back" onclick="prevPage()" data-t="back"></button>
+  </div>
+</section>
+
+<section id="result" hidden>
+  <h1 data-t="rh"></h1>
+  <p class="lead" data-t="rlead"></p>
+
+  <div class="card">
+    <span class="tag" data-t="tagLead"></span>
+    <div id="r1"></div>
+  </div>
+  <div class="card">
+    <span class="tag" data-t="tagSecond"></span>
+    <div id="r2"></div>
+  </div>
+  <div class="card">
+    <span class="tag" data-t="tagGrowth"></span>
+    <div id="r3"></div>
+  </div>
+
+  <h2 data-t="ch"></h2>
+  <p data-t="ctext"></p>
+  <div class="code" id="codeout"></div>
+  <div class="nav">
+    <button class="btn" onclick="copyCode()" id="copybtn"></button>
+    <button class="btn ghost" onclick="restart()" data-t="again"></button>
+  </div>
+  <p class="small muted" style="margin-top:14px" data-t="cnote"></p>
+</section>
+
+<footer>
+  <span data-t="foot"></span>
+</footer>
+</div>
+<script>
+window.__ITEMS__ = [{"a": 2, "ru": "Трудная задача меня скорее заводит, чем пугает.", "en": "A hard challenge excites me more than it scares me."}, {"a": 7, "ru": "Мне важно создавать что-то своё — вещи, идеи, проекты.", "en": "I need to make something of my own — things, ideas, projects."}, {"a": 10, "ru": "Я часто чувствую, к чему всё идёт, раньше других.", "en": "I often sense where things are heading before others do."}, {"a": 0, "ru": "Я верю, что в итоге всё сложится хорошо.", "en": "I believe things will work out in the end."}, {"a": 5, "ru": "Если правило кажется мне глупым, я его нарушаю.", "en": "If a rule seems foolish to me, I break it."}, {"a": 9, "ru": "Прежде чем действовать, я хочу понять, как всё устроено.", "en": "Before I act, I want to understand how things work."}, {"a": 3, "ru": "Когда кому-то рядом плохо, мне сразу хочется помочь.", "en": "When someone near me is struggling, I want to help right away."}, {"a": 11, "ru": "Мне спокойнее, когда я всё контролирую.", "en": "I feel calmer when I am in control of everything."}, {"a": 6, "ru": "Красота, вкус и атмосфера для меня очень важны.", "en": "Beauty, taste and atmosphere matter a great deal to me."}, {"a": 1, "ru": "Мне важно быть своим среди своих — в семье, команде, компании.", "en": "It matters to me to belong — in my family, my team, my circle."}, {"a": 8, "ru": "Я умею разрядить обстановку шуткой.", "en": "I can lighten the mood with a joke."}, {"a": 4, "ru": "Мне быстро становится тесно в одном месте и в одной роли.", "en": "One place and one role start to feel too small for me quickly."}, {"a": 9, "ru": "Я больше доверяю фактам и анализу, чем эмоциям.", "en": "I trust facts and analysis more than emotions."}, {"a": 4, "ru": "Новые города, люди и идеи дают мне больше, чем стабильность.", "en": "New cities, people and ideas give me more than stability does."}, {"a": 0, "ru": "Мне важно, чтобы жизнь была простой и честной, без лишних сложностей.", "en": "I want life to be simple and honest, without needless complications."}, {"a": 8, "ru": "Жизнь слишком коротка, чтобы относиться ко всему серьёзно.", "en": "Life is too short to take everything seriously."}, {"a": 2, "ru": "Мне важно добиться результата, даже если придётся бороться.", "en": "Getting the result matters to me, even if I have to fight for it."}, {"a": 11, "ru": "Я легко беру на себя ответственность и руковожу.", "en": "I take responsibility and lead without difficulty."}, {"a": 5, "ru": "Меня раздражает, когда «так принято» важнее, чем «так правильно».", "en": "It irritates me when \"that's how it's done\" outweighs \"that's what's right\"."}, {"a": 6, "ru": "Близость с людьми для меня важнее успеха.", "en": "Closeness with people matters more to me than success."}, {"a": 10, "ru": "Мне нравится превращать трудную ситуацию в возможность.", "en": "I like turning a difficult situation into an opportunity."}, {"a": 3, "ru": "Я часто ставлю нужды близких выше своих.", "en": "I often put the needs of people close to me above my own."}, {"a": 7, "ru": "Мне скучно, если нельзя ничего придумать или улучшить.", "en": "I get bored when there is nothing to invent or improve."}, {"a": 1, "ru": "Я ценю простые, понятные вещи больше, чем что-то показное.", "en": "I value plain, honest things over anything showy."}, {"a": 6, "ru": "Я живу чувствами и доверяю им.", "en": "I live by my feelings and I trust them."}, {"a": 1, "ru": "Мне комфортно, когда со мной говорят на равных, без пафоса.", "en": "I feel at ease when people talk to me as an equal, without grandeur."}, {"a": 11, "ru": "Порядок и чёткие правила помогают мне жить.", "en": "Order and clear rules make my life work."}, {"a": 5, "ru": "Мне не страшно идти против большинства.", "en": "I am not afraid to go against the majority."}, {"a": 8, "ru": "Со мной людям обычно легко и весело.", "en": "People usually find me easy and fun to be around."}, {"a": 3, "ru": "Мне приятно, когда обо мне говорят: на тебя можно положиться.", "en": "It feels good when people say I am someone they can rely on."}, {"a": 10, "ru": "Я умею вдохновить людей так, что они меняются.", "en": "I can inspire people in a way that changes them."}, {"a": 0, "ru": "Я легко доверяю людям и вижу в них хорошее.", "en": "I trust people easily and see the good in them."}, {"a": 4, "ru": "Я ищу свой путь и не хочу жить по чужому сценарию.", "en": "I am looking for my own path and will not live by someone else's script."}, {"a": 7, "ru": "Я часто вижу, как сделать по-другому и интереснее.", "en": "I often see how something could be done differently and better."}, {"a": 2, "ru": "Я не люблю проигрывать — ни в работе, ни в споре.", "en": "I hate losing — at work or in an argument."}, {"a": 9, "ru": "Мне интересно учиться и разбираться в сложном.", "en": "I enjoy learning and working out complicated things."}];
+var ARCH = [
+ {ru:"Простодушный", en:"Innocent",  gr:"счастью и простоте", ge:"happiness and simplicity", sr:"доверие, оптимизм, чистота намерений", se:"trust, optimism, clean intentions"},
+ {ru:"Свой человек", en:"Everyman",  gr:"принадлежности",      ge:"belonging",                sr:"надёжность, умение быть рядом, честность", se:"reliability, being there for people, honesty"},
+ {ru:"Герой",        en:"Hero",      gr:"победе",              ge:"victory",                  sr:"смелость, воля, результат", se:"courage, will, results"},
+ {ru:"Опекун",       en:"Caregiver", gr:"заботе",              ge:"care",                     sr:"помощь, щедрость, поддержка", se:"help, generosity, support"},
+ {ru:"Искатель",     en:"Explorer",  gr:"свободе",             ge:"freedom",                  sr:"открытость новому, самостоятельность", se:"openness to the new, independence"},
+ {ru:"Бунтарь",      en:"Rebel",     gr:"переменам",           ge:"change",                   sr:"смелость менять правила", se:"the nerve to change the rules"},
+ {ru:"Влюблённый",   en:"Lover",     gr:"близости",            ge:"closeness",                sr:"чувства, вкус, умение любить и радоваться", se:"feeling, taste, the ability to love and enjoy"},
+ {ru:"Творец",       en:"Creator",   gr:"созданию",            ge:"creation",                 sr:"воображение, мастерство, своё видение", se:"imagination, craft, a vision of your own"},
+ {ru:"Шут",          en:"Jester",    gr:"радости",             ge:"joy",                      sr:"лёгкость, юмор, умение жить сейчас", se:"lightness, humour, living in the present"},
+ {ru:"Мудрец",       en:"Sage",      gr:"пониманию",           ge:"understanding",            sr:"ум, анализ, поиск истины", se:"intellect, analysis, the search for truth"},
+ {ru:"Маг",          en:"Magician",  gr:"преображению",        ge:"transformation",           sr:"видеть возможности, вдохновлять, менять", se:"seeing possibilities, inspiring, changing things"},
+ {ru:"Правитель",    en:"Ruler",     gr:"порядку",             ge:"order",                    sr:"ответственность, лидерство, структура", se:"responsibility, leadership, structure"}
+];
+
+var T = {
+ ru:{
+  h1:"Какой архетип ведёт вас",
+  lead:"36 коротких утверждений, около четырёх минут. Отвечайте первым, что приходит — так точнее.",
+  f1:"Ответы остаются в вашем браузере и никуда не отправляются.",
+  f2:"В конце вы получите короткий код результата — только он нужен для разбора.",
+  f3:"Можно закрыть страницу и вернуться: прогресс сохраняется.",
+  f4:"Это инструмент самопознания, а не медицинский или клинический тест.",
+  start:"Начать",
+  resume:"У вас есть незаконченная попытка — нажмите «Начать», чтобы продолжить с того же места.",
+  back:"Назад",
+  next:"Далее",
+  finish:"Показать результат",
+  s1:"совсем не про меня", s5:"точно про меня",
+  of:"Утверждения %a–%b из 36",
+  left:"осталось ≈ %m мин",
+  rh:"Готово",
+  rlead:"Вот что показали ваши ответы. Это то, как вы видите себя сами — в разборе мы сравним это со звёздами и числами.",
+  tagLead:"Ведущий архетип", tagSecond:"Второй архетип", tagGrowth:"Зона роста",
+  tagTie:"Ваши сильные роли — поровну",
+  tieNote:"Эти роли набрали одинаковый балл. Какая из них ведущая, показывает разбор: при равенстве порядок определяют звёзды и числа вашей карты.",
+  growthTie:"Эти стороны проявлены меньше остальных. Не слабость — ресурс, который пока не включён.",
+  leads:"Ведёт к ", str:"Сила: ",
+  growth:"Эта сторона пока проявлена меньше других. Не слабость — просто ресурс, который ещё не включён.",
+  ch:"Ваш код результата",
+  ctext:"Пришлите этот код вместе с датой, временем и городом рождения — и в разборе появится отдельная проверка: насколько то, как вы видите себя, совпало со звёздами и числами.",
+  copy:"Скопировать код", copied:"Скопировано",
+  again:"Пройти заново",
+  cnote:"По коду нельзя восстановить ваши ответы на отдельные утверждения.",
+  foot:"Star & Me · Три системы. Одно совпадение. Это вы."
+ },
+ en:{
+  h1:"Which archetype leads you",
+  lead:"36 short statements, about four minutes. Answer with your first instinct — it is more accurate.",
+  f1:"Your answers stay in your browser and are never sent anywhere.",
+  f2:"At the end you get a short result code — that is all your reading needs.",
+  f3:"You can close the page and come back: your progress is saved.",
+  f4:"This is a tool for self-knowledge, not a medical or clinical test.",
+  start:"Begin",
+  resume:"You have an unfinished attempt — press Begin to pick up where you left off.",
+  back:"Back",
+  next:"Next",
+  finish:"See my result",
+  s1:"not me at all", s5:"exactly me",
+  of:"Statements %a–%b of 36",
+  left:"≈ %m min left",
+  rh:"Done",
+  rlead:"Here is what your answers show. This is how you see yourself — in your reading we compare it with the stars and the numbers.",
+  tagLead:"Leading archetype", tagSecond:"Second archetype", tagGrowth:"Growth area",
+  tagTie:"Your strong roles — tied",
+  tieNote:"These roles scored the same. Which one leads is settled in your reading: when there is a tie, your chart and numbers decide the order.",
+  growthTie:"These sides show up less than the others. Not a weakness — a resource you have not switched on yet.",
+  leads:"Leads to ", str:"Strength: ",
+  growth:"This side shows up less than the others right now. Not a weakness — a resource you have not switched on yet.",
+  ch:"Your result code",
+  ctext:"Send this code together with your date, time and city of birth — your reading will then include a separate check: how closely the way you see yourself matches the stars and the numbers.",
+  copy:"Copy code", copied:"Copied",
+  again:"Start again",
+  cnote:"The code cannot be turned back into your answers to individual statements.",
+  foot:"Star & Me · Three systems. One match. That's you."
+ }
+};
+
+var PER = 4, lang = "ru", page = 0, ans = new Array(36).fill(0);
+var ITEMS = window.__ITEMS__;
+var KEY = "sm36v1";
+
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify({a:ans,p:page,l:lang})); }catch(e){} }
+function load(){ try{ var s=localStorage.getItem(KEY); return s?JSON.parse(s):null; }catch(e){ return null; } }
+
+function t(k){ return T[lang][k]; }
+
+function setLang(l){
+  lang = l;
+  document.documentElement.lang = l;
+  document.getElementById("lru").setAttribute("aria-pressed", l==="ru");
+  document.getElementById("len").setAttribute("aria-pressed", l==="en");
+  var nodes = document.querySelectorAll("[data-t]");
+  for (var i=0;i<nodes.length;i++){
+    var k = nodes[i].getAttribute("data-t");
+    if (T[l][k] !== undefined) nodes[i].textContent = T[l][k];
+  }
+  if (!document.getElementById("quiz").hidden) render();
+  if (!document.getElementById("result").hidden) showResult();
+  document.getElementById("copybtn").textContent = t("copy");
+  save();
+}
+
+function start(){
+  document.getElementById("intro").hidden = true;
+  document.getElementById("result").hidden = true;
+  document.getElementById("quiz").hidden = false;
+  render();
+  window.scrollTo(0,0);
+}
+
+function render(){
+  var box = document.getElementById("qcards");
+  box.innerHTML = "";
+  var from = page*PER, to = Math.min(from+PER, 36);
+  for (var i=from;i<to;i++){
+    var d = document.createElement("div");
+    d.className = "card";
+    var p = document.createElement("p");
+    p.className = "q";
+    p.textContent = (i+1) + ". " + (lang==="ru"?ITEMS[i].ru:ITEMS[i].en);
+    d.appendChild(p);
+    var sc = document.createElement("div");
+    sc.className = "scale";
+    for (var v=1;v<=5;v++){
+      var b = document.createElement("button");
+      b.type="button"; b.textContent = v;
+      b.setAttribute("aria-pressed", ans[i]===v);
+      b.setAttribute("aria-label", v);
+      (function(idx,val){ b.onclick = function(){ pick(idx,val); }; })(i,v);
+      sc.appendChild(b);
+    }
+    d.appendChild(sc);
+    var sl = document.createElement("div");
+    sl.className = "slabels";
+    sl.innerHTML = "<span>1 — "+t("s1")+"</span><span>5 — "+t("s5")+"</span>";
+    d.appendChild(sl);
+    box.appendChild(d);
+  }
+  var done = ans.filter(function(x){return x>0;}).length;
+  document.getElementById("barfill").style.width = (done/36*100)+"%";
+  document.getElementById("pcount").textContent = t("of").replace("%a",from+1).replace("%b",to);
+  var mins = Math.max(1, Math.round((36-done)*7/60));
+  document.getElementById("ptime").textContent = t("left").replace("%m",mins);
+  var last = to>=36;
+  var nb = document.getElementById("next");
+  nb.textContent = last ? t("finish") : t("next");
+  nb.disabled = !pageFull();
+  document.getElementById("back").hidden = page===0;
+}
+
+function pageFull(){
+  var from = page*PER, to = Math.min(from+PER, 36);
+  for (var i=from;i<to;i++) if (!ans[i]) return false;
+  return true;
+}
+
+function pick(i,v){
+  ans[i]=v; save();
+  var from = page*PER;
+  var cards = document.querySelectorAll("#qcards .card");
+  var c = cards[i-from];
+  if (c){
+    var bs = c.querySelectorAll(".scale button");
+    for (var k=0;k<bs.length;k++) bs[k].setAttribute("aria-pressed", (k+1)===v);
+  }
+  var done = ans.filter(function(x){return x>0;}).length;
+  document.getElementById("barfill").style.width = (done/36*100)+"%";
+  var mins = Math.max(1, Math.round((36-done)*7/60));
+  document.getElementById("ptime").textContent = t("left").replace("%m",mins);
+  document.getElementById("next").disabled = !pageFull();
+}
+
+function nextPage(){
+  if (!pageFull()) return;
+  if ((page+1)*PER >= 36){ finish(); return; }
+  page++; save(); render(); window.scrollTo(0,0);
+}
+function prevPage(){ if (page>0){ page--; save(); render(); window.scrollTo(0,0); } }
+
+function sums(){
+  var s = new Array(12).fill(0);
+  for (var i=0;i<36;i++) s[ITEMS[i].a] += ans[i];
+  return s;
+}
+function hex(n){ return n.toString(16).toUpperCase(); }
+
+function code(){
+  var s = sums(), out = "";
+  for (var a=0;a<12;a++) out += hex(Math.min(15, Math.max(3, s[a])));
+  return (lang==="ru" ? "АРХ-" : "ARC-") + out;
+}
+
+function finish(){
+  document.getElementById("quiz").hidden = true;
+  document.getElementById("result").hidden = false;
+  showResult();
+  window.scrollTo(0,0);
+}
+
+function nameOf(a){ return lang==="ru" ? ARCH[a].ru : ARCH[a].en; }
+function toOf(a){ return lang==="ru" ? ARCH[a].gr : ARCH[a].ge; }
+function strOf(a){ return lang==="ru" ? ARCH[a].sr : ARCH[a].se; }
+
+function card(el, list, kind){
+  var h = "";
+  for (var k=0;k<list.length;k++){
+    var a = list[k];
+    h += '<div class="rank"><span class="t">'+nameOf(a)+'</span><span class="d">'+t("leads")+toOf(a)+'</span></div>';
+  }
+  var note;
+  if (kind==="tie") note = t("tieNote");
+  else if (kind==="growth") note = list.length>1 ? t("growthTie") : t("growth");
+  else note = t("str")+strOf(list[0]);
+  h += '<p class="small" style="margin:8px 0 0">'+note+'</p>';
+  el.innerHTML = h;
+}
+
+function tagOf(id, key){ document.querySelector('#'+id).previousElementSibling.textContent = t(key); }
+
+function showResult(){
+  var s = sums();
+  var top = Math.max.apply(null, s);
+  var leaders = [];
+  for (var i=0;i<12;i++) if (s[i]===top) leaders.push(i);
+  var low = Math.min.apply(null, s);
+  var lows = [];
+  for (var j=0;j<12;j++) if (s[j]===low) lows.push(j);
+
+  var c1 = document.getElementById("r1"), c2 = document.getElementById("r2"), c3 = document.getElementById("r3");
+  var b2 = c2.parentNode;
+
+  if (leaders.length > 1){
+    card(c1, leaders, "tie");
+    tagOf("r1","tagTie");
+    b2.hidden = true;
+  } else {
+    card(c1, [leaders[0]], "lead");
+    tagOf("r1","tagLead");
+    var rest = [];
+    for (var k=0;k<12;k++) if (k!==leaders[0]) rest.push(k);
+    var sec = -Infinity;
+    for (var m=0;m<rest.length;m++) if (s[rest[m]]>sec) sec = s[rest[m]];
+    var seconds = [];
+    for (var n=0;n<rest.length;n++) if (s[rest[n]]===sec) seconds.push(rest[n]);
+    b2.hidden = false;
+    card(c2, seconds, seconds.length>1 ? "tie" : "lead");
+    tagOf("r2","tagSecond");
+  }
+  card(c3, lows, "growth");
+  tagOf("r3","tagGrowth");
+
+  document.getElementById("codeout").textContent = code();
+  document.getElementById("copybtn").textContent = t("copy");
+}
+
+function copyCode(){
+  var c = code(), b = document.getElementById("copybtn");
+  function ok(){ b.textContent = t("copied"); setTimeout(function(){ b.textContent = t("copy"); }, 1800); }
+  if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(c).then(ok, fallback);
+  } else fallback();
+  function fallback(){
+    var ta = document.createElement("textarea");
+    ta.value = c; ta.style.position="fixed"; ta.style.opacity="0";
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand("copy"); ok(); }catch(e){}
+    document.body.removeChild(ta);
+  }
+}
+
+function restart(){
+  ans = new Array(36).fill(0); page = 0; save();
+  document.getElementById("result").hidden = true;
+  document.getElementById("intro").hidden = false;
+  document.getElementById("quiz").hidden = true;
+  window.scrollTo(0,0);
+}
+
+(function init(){
+  var st = load();
+  if (st && st.l && T[st.l]) lang = st.l;
+  if (st && st.a && st.a.length===36){
+    ans = st.a; page = st.p || 0;
+    if (ans.filter(function(x){return x>0;}).length > 0)
+      document.getElementById("resumeNote").hidden = false;
+  }
+  setLang(lang);
+})();
+
+</script>
+</body>
+</html>
