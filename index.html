@@ -186,6 +186,7 @@ var T = {
   lTime:"Время рождения", hTime:"Как в свидетельстве о рождении или как помнят родители.",
   lNoTime:"Я не знаю своего времени рождения",
   lCity:"Город рождения", lCountry:"Страна рождения",
+  lLive:"Город, где вы живёте сейчас", hLive:"Нужен для календаря подсказок и для прогноза на год: они считаются по месту, где вы находитесь, а не где родились.",
   evH:"Важные даты вашей жизни",
   evLead:"Время рождения можно восстановить по событиям. Заполните хотя бы пять строк, лучше все семь. Подойдут только те даты, которые вы помните хотя бы с точностью до месяца — если точный день забылся, поставьте приблизительный.",
   evPick:"— выберите событие —",
@@ -193,7 +194,7 @@ var T = {
   ev5:"Смена работы или начало своего дела", ev6:"Операция или серьёзная травма", ev7:"Уход близкого человека", ev8:"Другое важное событие",
   evOwn:"Опишите событие",
   fnext:"Дальше — утверждения",
-  errReq:"Заполните дату рождения, город и страну.",
+  errReq:"Заполните дату рождения, город и страну рождения и город, где вы живёте сейчас.",
   errTime:"Укажите время рождения или отметьте, что вы его не знаете.",
   errEv:"Для восстановления времени нужно хотя бы пять событий с датами.",
   sendH:"Что отправить нам",
@@ -238,6 +239,7 @@ var T = {
   lTime:"Time of birth", hTime:"As on your birth certificate, or as your parents remember it.",
   lNoTime:"I do not know my time of birth",
   lCity:"City of birth", lCountry:"Country of birth",
+  lLive:"City where you live now", hLive:"Needed for your daily calendar and your year ahead: both are calculated for where you are now, not where you were born.",
   evH:"Important dates in your life",
   evLead:"Your birth time can be recovered from life events. Fill in at least five rows, ideally all seven. Only use dates you remember to within a month — if the exact day escapes you, give your best guess.",
   evPick:"— choose an event —",
@@ -245,7 +247,7 @@ var T = {
   ev5:"Changed job or started your own business", ev6:"Surgery or serious injury", ev7:"Loss of someone close", ev8:"Another important event",
   evOwn:"Describe the event",
   fnext:"Next — the statements",
-  errReq:"Please fill in your date of birth, city and country.",
+  errReq:"Please fill in your date of birth, city and country of birth, and the city where you live now.",
   errTime:"Enter your time of birth, or tick that you do not know it.",
   errEv:"At least five dated events are needed to recover your birth time.",
   sendH:"What to send us",
@@ -277,7 +279,7 @@ var T = {
 };
 
 var PER = 4, lang = "ru", page = 0, ans = new Array(36).fill(0);
-var P = {name:"",date:"",time:"",notime:false,city:"",country:"",ev:[{k:"",own:"",d:""},{k:"",own:"",d:""},{k:"",own:"",d:""},{k:"",own:"",d:""},{k:"",own:"",d:""},{k:"",own:"",d:""},{k:"",own:"",d:""}]};
+var P = {name:"",date:"",time:"",notime:false,city:"",country:"",live:"",ev:[{k:"",own:"",d:""},{k:"",own:"",d:""},{k:"",own:"",d:""},{k:"",own:"",d:""},{k:"",own:"",d:""},{k:"",own:"",d:""},{k:"",own:"",d:""}]};
 var ITEMS = window.__ITEMS__;
 var KEY = "sm36v1";
 
@@ -346,6 +348,7 @@ function renderForm(){
   h += '</div>';
   h += fld("f_city", t("lCity"), "text", P.city, "");
   h += fld("f_country", t("lCountry"), "text", P.country, "");
+  h += fld("f_live", t("lLive"), "text", P.live, t("hLive"));
   document.getElementById("formbox").innerHTML = h;
   document.getElementById("toquiz").textContent = t("fnext");
 
@@ -370,7 +373,7 @@ function val(id){ var e = document.getElementById(id); return e ? e.value : ""; 
 
 function readForm(){
   P.name = val("f_name"); P.date = val("f_date"); P.time = val("f_time");
-  P.city = val("f_city"); P.country = val("f_country");
+  P.city = val("f_city"); P.country = val("f_country"); P.live = val("f_live");
   var nt = document.getElementById("f_notime");
   if (nt) P.notime = nt.checked;
   for (var i=0;i<7;i++) P.ev[i] = { k: val("e_k"+i), own: val("e_o"+i), d: val("e_d"+i) };
@@ -386,7 +389,7 @@ function formNext(){
   readForm();
   var err = document.getElementById("formerr");
   var msg = "";
-  if (!P.date || !P.city.trim() || !P.country.trim()) msg = t("errReq");
+  if (!P.date || !P.city.trim() || !P.country.trim() || !P.live.trim()) msg = t("errReq");
   else if (!P.notime && !P.time) msg = t("errTime");
   else if (P.notime && evCount() < 5) msg = t("errEv");
   if (msg){ err.textContent = msg; err.hidden = false; err.scrollIntoView({block:"center"}); return; }
@@ -574,6 +577,7 @@ function sendText(){
   }
   L.push((lang==="ru"?"Город рождения: ":"City of birth: ") + P.city.trim());
   L.push((lang==="ru"?"Страна рождения: ":"Country of birth: ") + P.country.trim());
+  L.push((lang==="ru"?"Живёт сейчас: ":"Lives now: ") + P.live.trim());
   L.push((lang==="ru"?"Код теста: ":"Test code: ") + code());
   return L.join("\n");
 }
